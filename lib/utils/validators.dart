@@ -16,7 +16,10 @@
 */
 
 void validateBundleId(String id) {
-  final regex = RegExp(r'^[a-zA-Z][a-zA-Z0-9_]*(\.[a-zA-Z0-9_]+)+\$');
+  final regex = RegExp(
+    r'^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$',
+  );
+
   if (!regex.hasMatch(id)) {
     throw Exception('Invalid app identifier: $id');
   }
