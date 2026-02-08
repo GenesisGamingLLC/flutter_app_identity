@@ -59,13 +59,6 @@ void renameAndroidNames(RenameConfig config) {
       } else {
         attrs += ' android:label="@string/app_name"';
       }
-      // Add/replace android:name
-      if (attrs.contains('android:name=')) {
-        attrs = attrs.replaceAll(RegExp(r'android:name="[^"]*"'),
-            'android:name="${config.androidId}"');
-      } else {
-        attrs += ' android:name="${config.androidId}"';
-      }
       return '<application$attrs>';
     },
   );

@@ -1,6 +1,6 @@
 name: flutter_app_identity
 description: Manage Flutter app identity (app names and bundle identifiers) for Android and iOS.
-version: 0.1.2
+version: 0.1.3
 homepage: https://github.com/genesisgamingllc/flutter_app_identity
 
 topics:
