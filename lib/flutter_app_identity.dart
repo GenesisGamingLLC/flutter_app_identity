@@ -24,7 +24,7 @@ import 'package:flutter_app_identity/ios/ios_names.dart';
 import 'package:flutter_app_identity/utils/logger.dart';
 
 void runFlutterAppIdentity() {
-  Logger.info('flutter_app_identity v0.1.0');
+  Logger.info('flutter_app_identity v0.1.1');
   final config = RenameConfig.load();
 
   renameAndroidIds(config);
