@@ -20,15 +20,31 @@ import 'package:flutter_app_identity/utils/file_edit.dart';
 import 'package:flutter_app_identity/utils/logger.dart';
 
 void renameAndroidIds(RenameConfig config) {
+  // Groovy
   replaceInFile(
-    'android/app/build.gradle.kts',
+    'android/app/build.gradle',
     RegExp(r'applicationId\s+"[^"]+"'),
     'applicationId "${config.androidId}"',
   );
+
   replaceInFile(
-    'android/app/build.gradle.kts',
+    'android/app/build.gradle',
     RegExp(r'namespace\s+"[^"]+"'),
     'namespace "${config.androidId}"',
   );
+
+  // Kotlin DSL (Flutter 3.38+)
+  replaceInFile(
+    'android/app/build.gradle.kts',
+    RegExp(r'applicationId\s*=\s*"[^"]+"'),
+    'applicationId = "${config.androidId}"',
+  );
+
+  replaceInFile(
+    'android/app/build.gradle.kts',
+    RegExp(r'namespace\s*=\s*"[^"]+"'),
+    'namespace = "${config.androidId}"',
+  );
+
   Logger.success('Android applicationId → ${config.androidId}');
 }

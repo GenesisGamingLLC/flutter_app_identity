@@ -21,45 +21,55 @@ import 'package:flutter_app_identity/config/rename_config.dart';
 import 'package:flutter_app_identity/utils/logger.dart';
 
 void refactorAndroidPackage(RenameConfig config) {
-  final kotlinRoot =
-      Directory(p.join('android', 'app', 'src', 'main', 'kotlin'));
+  final kotlinRoot = Directory(
+    p.join('android', 'app', 'src', 'main', 'kotlin'),
+  );
+
   if (!kotlinRoot.existsSync()) {
-    Logger.warn('No Kotlin directory found');
+    Logger.warn('No Kotlin source directory found');
     return;
   }
 
   final newPackage = config.androidId;
-  final newPackagePath = p.joinAll(newPackage.split('.'));
+  final newPath = p.joinAll(newPackage.split('.'));
 
-  final files = kotlinRoot
+  final ktFiles = kotlinRoot
       .listSync(recursive: true)
       .whereType<File>()
       .where((f) => f.path.endsWith('.kt'))
       .toList();
 
-  for (final file in files) {
+  for (final file in ktFiles) {
     final content = file.readAsStringSync();
+
     final updated = content.replaceFirst(
       RegExp(r'^package\s+[\w.]+', multiLine: true),
       'package $newPackage',
     );
 
-    final newFile =
-        File(p.join(kotlinRoot.path, newPackagePath, p.basename(file.path)));
+    final newFile = File(
+      p.join(kotlinRoot.path, newPath, p.basename(file.path)),
+    );
+
     newFile.parent.createSync(recursive: true);
     newFile.writeAsStringSync(updated);
-    if (file.path != newFile.path) file.deleteSync();
+
+    if (file.path != newFile.path) {
+      file.deleteSync();
+    }
   }
 
-  _cleanup(kotlinRoot);
-  Logger.success('Android Kotlin package refactored');
+  _cleanupEmptyDirs(kotlinRoot);
+  Logger.success('Android Kotlin package path refactored');
 }
 
-void _cleanup(Directory dir) {
+void _cleanupEmptyDirs(Directory dir) {
   for (final e in dir.listSync()) {
     if (e is Directory) {
-      _cleanup(e);
-      if (e.listSync().isEmpty) e.deleteSync();
+      _cleanupEmptyDirs(e);
+      if (e.listSync().isEmpty) {
+        e.deleteSync();
+      }
     }
   }
 }
