@@ -48,3 +48,9 @@ flutter_app_identity:
   droidAppId: "com.example.droid"
   iosAppId: "com.example.ios"
 ```
+
+Then run
+
+```bash
+dart run flutter_app_identity
+```
