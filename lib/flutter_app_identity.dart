@@ -23,8 +23,12 @@ import 'package:flutter_app_identity/ios/ios_ids.dart';
 import 'package:flutter_app_identity/ios/ios_names.dart';
 import 'package:flutter_app_identity/utils/logger.dart';
 
+/// Runs the Flutter app identity update process.
+///
+/// This function loads the configuration and updates the app identity for both
+/// Android and iOS platforms, including IDs, names, and package structures.
 void runFlutterAppIdentity() {
-  Logger.info('flutter_app_identity v0.1.3');
+  Logger.info('flutter_app_identity v0.1.4');
   final config = RenameConfig.load();
 
   renameAndroidIds(config);

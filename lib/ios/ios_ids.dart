@@ -19,6 +19,12 @@ import 'package:flutter_app_identity/config/rename_config.dart';
 import 'package:flutter_app_identity/utils/file_edit.dart';
 import 'package:flutter_app_identity/utils/logger.dart';
 
+/// Renames the iOS bundle identifier in the Xcode project file.
+///
+/// This function updates the `PRODUCT_BUNDLE_IDENTIFIER` in the
+/// `ios/Runner.xcodeproj/project.pbxproj` file to match the provided [config.iosId].
+///
+/// [config] - The configuration containing the new iOS bundle ID.
 void renameIOSIds(RenameConfig config) {
   replaceInFile(
     'ios/Runner.xcodeproj/project.pbxproj',

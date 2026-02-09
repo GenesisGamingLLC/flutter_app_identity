@@ -19,6 +19,12 @@ import 'package:flutter_app_identity/config/rename_config.dart';
 import 'package:flutter_app_identity/utils/file_edit.dart';
 import 'package:flutter_app_identity/utils/logger.dart';
 
+/// Renames the iOS app names in the Info.plist file.
+///
+/// This function updates the `CFBundleName` and `CFBundleDisplayName` in the
+/// `ios/Runner/Info.plist` file to match the provided [config.name] and [config.shortName].
+///
+/// [config] - The configuration containing the new app names.
 void renameIOSNames(RenameConfig config) {
   replaceInFile(
     'ios/Runner/Info.plist',

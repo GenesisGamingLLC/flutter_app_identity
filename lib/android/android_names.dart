@@ -15,11 +15,20 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+library android_names;
+
 import 'dart:io';
 import 'package:path/path.dart' as p;
 import 'package:flutter_app_identity/config/rename_config.dart';
 import 'package:flutter_app_identity/utils/logger.dart';
 
+/// Renames the Android app names and labels in the strings.xml and AndroidManifest.xml files.
+///
+/// This function creates or updates the `res/values/strings.xml` file with the app name,
+/// launcher name, and activity name from the [config]. It also updates the AndroidManifest.xml
+/// to reference these string resources for labels.
+///
+/// [config] - The configuration containing the new app names.
 void renameAndroidNames(RenameConfig config) {
   // 1️⃣ Ensure res/values/strings.xml exists
   final valuesDir =

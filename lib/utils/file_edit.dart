@@ -17,6 +17,13 @@
 
 import 'dart:io';
 
+/// Replaces all occurrences of [from] with [to] in the file at [path].
+///
+/// If the file does not exist, this function does nothing.
+///
+/// [path] - The path to the file to edit.
+/// [from] - The pattern to replace.
+/// [to] - The replacement string.
 void replaceInFile(String path, Pattern from, String to) {
   final file = File(path);
   if (!file.existsSync()) return;

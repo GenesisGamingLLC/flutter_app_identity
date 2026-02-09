@@ -18,12 +18,29 @@
 import 'package:flutter_app_identity/utils/yaml_loader.dart';
 import 'package:flutter_app_identity/utils/validators.dart';
 
+/// Configuration class for app identity renaming.
+///
+/// This class holds the configuration values loaded from the YAML file
+/// for renaming the app's name, short name, Android ID, and iOS ID.
 class RenameConfig {
+  /// The full name of the app.
   final String name;
+
+  /// The short name of the app (used for display).
   final String shortName;
+
+  /// The Android application ID.
   final String androidId;
+
+  /// The iOS bundle identifier.
   final String iosId;
 
+  /// Creates a new [RenameConfig] instance.
+  ///
+  /// [name] - The full app name.
+  /// [shortName] - The short app name.
+  /// [androidId] - The Android app ID.
+  /// [iosId] - The iOS bundle ID.
   RenameConfig({
     required this.name,
     required this.shortName,
@@ -31,6 +48,13 @@ class RenameConfig {
     required this.iosId,
   });
 
+  /// Loads the configuration from the YAML file.
+  ///
+  /// This method reads the `flutter_app_identity` configuration from
+  /// `pubspec.yaml` and validates the required fields.
+  ///
+  /// Returns a [RenameConfig] instance with the loaded values.
+  /// Throws an exception if required fields are missing or invalid.
   static RenameConfig load() {
     final cfg = loadFlutterRenameConfig();
     final name = cfg['name'];

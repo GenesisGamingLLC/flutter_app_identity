@@ -15,6 +15,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/// Validates a bundle identifier (app ID) format.
+///
+/// The ID must start with a lowercase letter, followed by lowercase letters,
+/// digits, or underscores, and contain at least one dot-separated segment.
+///
+/// [id] - The bundle ID to validate.
+/// Throws an exception if the ID is invalid.
 void validateBundleId(String id) {
   final regex = RegExp(
     r'^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$',

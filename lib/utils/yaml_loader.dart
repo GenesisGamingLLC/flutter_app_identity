@@ -15,9 +15,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+library yaml_loader;
+
 import 'dart:io';
 import 'package:yaml/yaml.dart';
 
+/// Loads the flutter_app_identity configuration from pubspec.yaml.
+///
+/// This function reads the `pubspec.yaml` file and extracts the
+/// `flutter_app_identity` section.
+///
+/// Returns a [Map] containing the configuration values.
+/// Throws an exception if the file or section is missing.
 Map loadFlutterRenameConfig() {
   final file = File('pubspec.yaml');
   if (!file.existsSync()) throw Exception('pubspec.yaml not found');

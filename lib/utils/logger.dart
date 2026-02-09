@@ -15,8 +15,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/// A simple logger class for outputting messages to the console.
+///
+/// This class provides static methods for logging different types of messages
+/// with appropriate emojis.
 class Logger {
+  /// Logs an informational message.
+  ///
+  /// [msg] - The message to log.
   static void info(String msg) => print('ℹ️  $msg');
+
+  /// Logs a success message.
+  ///
+  /// [msg] - The message to log.
   static void success(String msg) => print('✅ $msg');
+
+  /// Logs a warning message.
+  ///
+  /// [msg] - The message to log.
   static void warn(String msg) => print('⚠️  $msg');
 }

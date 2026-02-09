@@ -15,11 +15,21 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+library android_package_refactor;
+
 import 'dart:io';
 import 'package:path/path.dart' as p;
 import 'package:flutter_app_identity/config/rename_config.dart';
 import 'package:flutter_app_identity/utils/logger.dart';
 
+/// Refactors the Android package structure for Kotlin source files.
+///
+/// This function updates the package declarations in all `.kt` files under
+/// `android/app/src/main/kotlin` to match the new [config.androidId], and moves
+/// the files to the corresponding directory structure. It also cleans up empty
+/// directories left behind.
+///
+/// [config] - The configuration containing the new Android ID.
 void refactorAndroidPackage(RenameConfig config) {
   final kotlinRoot = Directory(
     p.join('android', 'app', 'src', 'main', 'kotlin'),

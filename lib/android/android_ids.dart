@@ -15,10 +15,19 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+library android_ids;
+
 import 'package:flutter_app_identity/config/rename_config.dart';
 import 'package:flutter_app_identity/utils/file_edit.dart';
 import 'package:flutter_app_identity/utils/logger.dart';
 
+/// Renames the Android application ID and namespace in the build.gradle files.
+///
+/// This function updates the `applicationId` and `namespace` in both Groovy
+/// (`build.gradle`) and Kotlin DSL (`build.gradle.kts`) files to match the
+/// provided [config.androidId].
+///
+/// [config] - The configuration containing the new Android ID.
 void renameAndroidIds(RenameConfig config) {
   // Groovy
   replaceInFile(
