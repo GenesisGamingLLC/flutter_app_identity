@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4
+
+- updated documentation
+
 ## 0.1.3
 
 - fix: do not change application name tag only label
