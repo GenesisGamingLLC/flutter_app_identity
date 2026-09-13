@@ -16,7 +16,9 @@
 */
 
 import 'package:flutter_app_identity/flutter_app_identity.dart';
+import 'package:flutter_app_identity/utils/dry_run.dart';
 
 void main(List<String> args) {
-  runFlutterAppIdentity();
+  final dryRun = args.contains('--dry-run');
+  runFlutterAppIdentity(dryRun: dryRun);
 }

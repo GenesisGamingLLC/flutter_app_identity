@@ -16,6 +16,7 @@
 */
 
 import 'package:flutter_app_identity/config/rename_config.dart';
+import 'package:flutter_app_identity/utils/dry_run.dart';
 import 'package:flutter_app_identity/android/android_ids.dart';
 import 'package:flutter_app_identity/android/android_names.dart';
 import 'package:flutter_app_identity/android/android_package_refactor.dart';
@@ -27,9 +28,17 @@ import 'package:flutter_app_identity/utils/logger.dart';
 ///
 /// This function loads the configuration and updates the app identity for both
 /// Android and iOS platforms, including IDs, names, and package structures.
-void runFlutterAppIdentity() {
+/// Runs the Flutter app identity update process.
+///
+/// This function loads the configuration and updates the app identity for both
+/// Android and iOS platforms, including IDs, names, and package structures.
+void runFlutterAppIdentity({bool dryRun = false}) {
   Logger.info('flutter_app_identity v0.1.4');
   final config = RenameConfig.load();
+
+  if (dryRun) {
+    DryRun.enable();
+  }
 
   renameAndroidIds(config);
   renameAndroidNames(config);

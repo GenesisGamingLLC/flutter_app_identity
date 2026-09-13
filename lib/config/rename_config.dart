@@ -55,6 +55,13 @@ class RenameConfig {
   ///
   /// Returns a [RenameConfig] instance with the loaded values.
   /// Throws an exception if required fields are missing or invalid.
+  /// Loads the configuration from the YAML file.
+  ///
+  /// This method reads the `flutter_app_identity` configuration from
+  /// `pubspec.yaml` and validates the required fields.
+  ///
+  /// Returns a [RenameConfig] instance with the loaded values.
+  /// Throws an exception if required fields are missing or invalid.
   static RenameConfig load() {
     final cfg = loadFlutterRenameConfig();
     final name = cfg['name'];
@@ -85,4 +92,39 @@ class RenameConfig {
       iosId: iosId,
     );
   }
-}
+
+  /// Loads the configuration from the YAML file, but skips validation in dry-run mode.
+  ///
+  /// This method reads the `flutter_app_identity` configuration from
+  /// `pubspec.yaml` and validates the required fields.
+  ///
+  /// Returns a [RenameConfig] instance with the loaded values.
+  /// Throws an exception if required fields are missing or invalid.
+  static RenameConfig loadDryRun() {
+    final cfg = loadFlutterRenameConfig();
+    final name = cfg['name'];
+    if (name == null) throw Exception('flutter_app_identity.name is required');
+
+    final shortName = cfg['shortName'] ?? name;
+    final id = cfg['id'];
+    final android = cfg['droidAppId'];
+    final ios = cfg['iosAppId'];
+
+    if (id != null && (android != null || ios != null)) {
+      throw Exception('Use either id OR droidAppId + iosAppId');
+    }
+    if (id == null && (android == null || ios == null)) {
+      throw Exception('Provide id or both droidAppId + iosAppId');
+    }
+
+    final androidId = id ?? android;
+    final iosId = id ?? ios;
+
+    // Skip validation in dry-run mode
+    return RenameConfig(
+      name: name,
+      shortName: shortName,
+      androidId: androidId,
+      iosId: iosId,
+    );
+  }
