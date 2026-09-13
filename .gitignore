@@ -24,3 +24,4 @@ doc/api/
 .idea/modules.xml
 .idea/vcs.xml
 flutter_app_identity.iml
+/.garald
