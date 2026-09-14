@@ -18,16 +18,21 @@
 library android_package_refactor;
 
 import 'dart:io';
+
 import 'package:path/path.dart' as p;
 import 'package:flutter_app_identity/config/rename_config.dart';
+import 'package:flutter_app_identity/utils/dry_run.dart';
 import 'package:flutter_app_identity/utils/logger.dart';
 
 /// Refactors the Android package structure for Kotlin source files.
 ///
 /// This function updates the package declarations in all `.kt` files under
 /// `android/app/src/main/kotlin` to match the new [config.androidId], and moves
-/// the files to the corresponding directory structure. It also cleans up empty
-/// directories left behind.
+/// the files to the corresponding directory structure. It also cleans up
+/// empty directories left behind.
+///
+/// In dry-run mode, all changes are calculated and logged, but no files or
+/// directories are modified.
 ///
 /// [config] - The configuration containing the new Android ID.
 void refactorAndroidPackage(RenameConfig config) {
@@ -58,27 +63,56 @@ void refactorAndroidPackage(RenameConfig config) {
     );
 
     final newFile = File(
-      p.join(kotlinRoot.path, newPath, p.basename(file.path)),
+      p.join(
+        kotlinRoot.path,
+        newPath,
+        p.basename(file.path),
+      ),
     );
 
-    newFile.parent.createSync(recursive: true);
-    newFile.writeAsStringSync(updated);
+    // Create the destination directory if required.
+    if (!newFile.parent.existsSync()) {
+      DryRun.createDirectory(
+        newFile.parent,
+        description: 'Create Kotlin package directory: ${newFile.parent.path}',
+      );
+    }
 
+    // Write the updated Kotlin source.
+    DryRun.writeFile(
+      newFile,
+      updated,
+      description: 'Move/update Kotlin file: ${file.path} → ${newFile.path}',
+    );
+
+    // Remove the original file after moving it.
     if (file.path != newFile.path) {
-      file.deleteSync();
+      DryRun.deleteFile(
+        file,
+        description: 'Remove old Kotlin file: ${file.path}',
+      );
     }
   }
 
   _cleanupEmptyDirs(kotlinRoot);
-  Logger.success('Android Kotlin package path refactored');
+
+  if (DryRun.enabled) {
+    Logger.success('Dry-run: Android Kotlin package refactor analyzed');
+  } else {
+    Logger.success('Android Kotlin package path refactored');
+  }
 }
 
 void _cleanupEmptyDirs(Directory dir) {
   for (final e in dir.listSync()) {
     if (e is Directory) {
       _cleanupEmptyDirs(e);
+
       if (e.listSync().isEmpty) {
-        e.deleteSync();
+        DryRun.deleteDirectory(
+          e,
+          description: 'Remove empty Kotlin directory: ${e.path}',
+        );
       }
     }
   }

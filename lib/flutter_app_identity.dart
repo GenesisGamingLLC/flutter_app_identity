@@ -34,11 +34,15 @@ import 'package:flutter_app_identity/utils/logger.dart';
 /// Android and iOS platforms, including IDs, names, and package structures.
 void runFlutterAppIdentity({bool dryRun = false}) {
   Logger.info('flutter_app_identity v0.1.4');
-  final config = RenameConfig.load();
 
   if (dryRun) {
     DryRun.enable();
+    Logger.info('Dry-run mode enabled. No files will be modified.');
+  } else {
+    DryRun.disable();
   }
+
+  final config = RenameConfig.load();
 
   renameAndroidIds(config);
   renameAndroidNames(config);
@@ -46,5 +50,9 @@ void runFlutterAppIdentity({bool dryRun = false}) {
   renameIOSIds(config);
   renameIOSNames(config);
 
-  Logger.success('✔ App identity updated successfully');
+  if (dryRun) {
+    Logger.success('✔ Dry-run completed successfully');
+  } else {
+    Logger.success('✔ App identity updated successfully');
+  }
 }

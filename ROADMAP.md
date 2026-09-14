@@ -2,7 +2,7 @@
 
 ## 🚧 v0.2.0 (Planned)
 
-- **Dry-run mode**
+- **Dry-run mode** - DONE
   - Preview all changes without writing files
 - **Automatic backups**
   - Create `.bak` files before modifying platform files

@@ -16,17 +16,40 @@
 */
 
 import 'dart:io';
+import 'package:flutter_app_identity/utils/dry_run.dart';
 
 /// Replaces all occurrences of [from] with [to] in the file at [path].
 ///
 /// If the file does not exist, this function does nothing.
+///
+/// In dry-run mode, the file is read and the replacement is calculated,
+/// but the file is not modified.
 ///
 /// [path] - The path to the file to edit.
 /// [from] - The pattern to replace.
 /// [to] - The replacement string.
 void replaceInFile(String path, Pattern from, String to) {
   final file = File(path);
-  if (!file.existsSync()) return;
+
+  if (!file.existsSync()) {
+    return;
+  }
+
   final content = file.readAsStringSync();
-  file.writeAsStringSync(content.replaceAll(from, to));
+  final updatedContent = content.replaceAll(from, to);
+
+  // Nothing actually changes.
+  if (updatedContent == content) {
+    DryRun.logOperation(
+      'No change',
+      path,
+    );
+    return;
+  }
+
+  DryRun.writeFile(
+    file,
+    updatedContent,
+    description: 'Replace content in $path',
+  );
 }
